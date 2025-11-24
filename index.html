@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Zip</title>
+    <style>
+        body {
+            font-size: 30px;
+        }
+
+        input,
+        button {
+            padding: 32px;
+        }
+
+        input:hover {
+            background-color: gainsboro;
+        }
+
+        input[type="date"]::-webkit-datetime-edit {
+            padding: 1em;
+        }
+
+        input[type="date"]::-webkit-datetime-edit-fields-wrapper {
+            background: silver;
+        }
+
+        input[type="date"]::-webkit-datetime-edit-text {
+            color: red;
+            padding: 0 0.3em;
+        }
+
+        input[type="date"]::-webkit-datetime-edit-month-field {
+            color: blue;
+        }
+
+        input[type="date"]::-webkit-datetime-edit-day-field {
+            color: green;
+        }
+
+        input[type="date"]::-webkit-datetime-edit-year-field {
+            color: purple;
+        }
+
+        input[type="date"]::-webkit-inner-spin-button {
+            display: none;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            background: orange;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="display: flex; flex-direction: column; gap: 12px; padding: 24px;">
+        <h1>Split video</h1>
+        <form action="/file" enctype="multipart/form-data" method="post" onsubmit="myButton.disabled = true">
+            <input type="file" name="file" accept="video/*">
+            <select name="size">
+                <option value="1080">1080P</option>
+                <option value="keep">Keep Size (Only chunk)</option>
+                <option value="3840">4K</option>
+                <option value="2560">2K</option>
+                <option value="1920">1920P</option>
+                <option value="1440">1440P</option>
+                <option value="720">720P</option>
+                <option value="480">480P</option>
+                <option value="360">360P</option>
+                <option value="240">240P</option>
+            </select>
+            <button type="submit" name="myButton">Zip Video</button>
+        </form>
+
+        <h1>Merge video</h1>
+        <form action="/merge" enctype="multipart/form-data" method="post" onsubmit="mergeButton.disabled = true">
+            <input type="file" name="files" multiple accept="video/*">
+            <button type="submit" name="mergeButton">Merge Video</button>
+        </form>
+
+        <div style="border: 1px solid gainsboro; padding: 16px;">
+            {{result}}
+        </div>
+        <a href="/" target="_blank">Home</a>
+    </div>
+</body>
+
+</html>

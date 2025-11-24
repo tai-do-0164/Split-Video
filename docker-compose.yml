@@ -1,0 +1,9 @@
+services:
+  split_video_service:
+    build: .
+    restart: always
+    volumes:
+      - ./data/out:/app/out
+      - ./data/uploads:/app/uploads
+    ports:
+      - 9999:9999
