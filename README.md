@@ -9,6 +9,7 @@ Get started with LightSplit and experience lightning-fast video processing!
 
 ## Environment
 
+
 ### SESSION_SECRET
 - Random string, use for session of user
 
