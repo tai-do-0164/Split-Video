@@ -20,6 +20,15 @@ app.use(
 
 app.use(express.urlencoded({ extended: true }));
 
+function formatBytes(bytes) {
+    if (bytes === 0) return '0 B';
+    const k = 1024;
+    const sizes = ['B', 'KB', 'MB', 'GB', 'TB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    const value = bytes / Math.pow(k, i);
+    return `${value.toFixed(2)} ${sizes[i]}`;
+}
+
 app.post('/file', upload.single('file'), async (req, res) => {
     const file = req.file
     const size = req.body.size
@@ -42,7 +51,7 @@ app.post('/file', upload.single('file'), async (req, res) => {
     let content = readFileSync(__dirname + '/index.html')
     const files = fs.readdirSync(outDir)
     const resultDownload = files.map(file => {
-        return `<a target="_blank" href="/file?path=${outDir}/${file}">Download ${file}</a> (<a target="_blank" href="/file?path=${outDir}/${file}&type=preview">Preview</a>)`
+        return `<a target="_blank" href="/file?path=${outDir}/${file}">Download ${file} (${formatBytes(fs.statSync(`${outDir}/${file}`).size)})</a> (<a target="_blank" href="/file?path=${outDir}/${file}&type=preview">Preview</a>)`
     }).join('<br>')
     content = content.toString().replace('{{result}}', `Converted video done! 
         <br>
@@ -67,7 +76,7 @@ app.post('/merge', upload.array('files'), async (req, res) => {
     let content = readFileSync(__dirname + '/index.html')
     const outFiles = fs.readdirSync(outDir)
     const resultDownload = outFiles.map(file => {
-        return `<a target="_blank" href="/file?path=${outDir}/${file}">Download ${file}</a> (<a target="_blank" href="/file?path=${outDir}/${file}&type=preview">Preview</a>)`
+        return `<a target="_blank" href="/file?path=${outDir}/${file}">Download ${file} (${formatBytes(fs.statSync(`${outDir}/${file}`).size)})</a> (<a target="_blank" href="/file?path=${outDir}/${file}&type=preview">Preview</a>)`
     }).join('<br>')
     content = content.toString().replace('{{result}}', `Converted video done! 
         <br>
@@ -103,7 +112,7 @@ app.get('/file', async (req, res) => {
     res.download(__dirname + `/${path}`)
 })
 
-app.listen(9999, () => {
-    console.log('Server is running on port 9999. http://localhost:9999');
+app.listen(+process.env.PORT, () => {
+    console.log(`Server is running on port ${process.env.PORT}. http://localhost:${process.env.PORT}`);
 });
 
