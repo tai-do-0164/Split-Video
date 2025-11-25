@@ -1,90 +1,298 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Tools Pro</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Zip</title>
     <style>
-        body {
-            font-size: 30px;
-        }
+      :root {
+        --primary: #4f46e5;
+        --primary-hover: #4338ca;
+        --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        --card-bg: rgba(255, 255, 255, 0.95);
+        --text-main: #1f2937;
+        --text-muted: #6b7280;
+        --border: #e5e7eb;
+        --radius: 16px;
+        --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+          0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      }
 
-        input,
-        button {
-            padding: 32px;
-        }
+      body {
+        margin: 0;
+        font-family: "Inter", sans-serif;
+        background: var(--bg-gradient);
+        color: var(--text-main);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        padding: 40px 20px;
+        box-sizing: border-box;
+      }
 
-        input:hover {
-            background-color: gainsboro;
-        }
+      .container {
+        width: 100%;
+        max-width: 700px;
+        background: var(--card-bg);
+        backdrop-filter: blur(10px);
+        padding: 40px;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+      }
 
-        input[type="date"]::-webkit-datetime-edit {
-            padding: 1em;
-        }
+      .welcome-box {
+        background: #e0e7ff;
+        padding: 24px;
+        border-radius: 12px;
+        border-left: 5px solid var(--primary);
+      }
 
-        input[type="date"]::-webkit-datetime-edit-fields-wrapper {
-            background: silver;
-        }
+      .welcome-box h1 {
+        margin: 0 0 8px 0;
+        font-size: 24px;
+        color: var(--primary);
+      }
 
-        input[type="date"]::-webkit-datetime-edit-text {
-            color: red;
-            padding: 0 0.3em;
-        }
+      .welcome-box p {
+        margin: 0;
+        font-size: 15px;
+        line-height: 1.6;
+        color: var(--text-main);
+      }
 
-        input[type="date"]::-webkit-datetime-edit-month-field {
-            color: blue;
-        }
+      .tool-section {
+        border: 1px solid var(--border);
+        padding: 24px;
+        border-radius: 12px;
+        background: #fff;
+        transition: transform 0.2s ease;
+      }
 
-        input[type="date"]::-webkit-datetime-edit-day-field {
-            color: green;
-        }
+      .tool-section:hover {
+        border-color: #c7d2fe;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      }
 
-        input[type="date"]::-webkit-datetime-edit-year-field {
-            color: purple;
-        }
+      h2 {
+        margin: 0 0 20px 0;
+        font-size: 20px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
 
-        input[type="date"]::-webkit-inner-spin-button {
-            display: none;
-        }
+      h2::before {
+        content: "";
+        display: block;
+        width: 8px;
+        height: 8px;
+        background: var(--primary);
+        border-radius: 50%;
+      }
 
-        input[type="date"]::-webkit-calendar-picker-indicator {
-            background: orange;
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      input[type="file"] {
+        font-size: 14px;
+        color: var(--text-muted);
+        background: #f9fafb;
+        border: 1px dashed var(--border);
+        border-radius: 8px;
+        padding: 10px;
+        width: 100%;
+        box-sizing: border-box;
+        transition: 0.2s;
+      }
+
+      input[type="file"]:hover {
+        background: #f3f4f6;
+        border-color: var(--primary);
+      }
+
+      input[type="file"]::file-selector-button {
+        border: none;
+        background: var(--primary);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+        margin-right: 12px;
+        transition: 0.2s;
+      }
+
+      input[type="file"]::file-selector-button:hover {
+        background: var(--primary-hover);
+      }
+
+      select {
+        appearance: none;
+        padding: 14px;
+        font-size: 15px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background-color: #fff;
+        background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236b7280%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1rem center;
+        background-size: 0.8em auto;
+        cursor: pointer;
+        color: var(--text-main);
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      select:focus,
+      input:focus {
+        outline: 2px solid #c7d2fe;
+        border-color: var(--primary);
+      }
+
+      button[type="submit"] {
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        background: var(--primary);
+        color: white;
+        font-weight: 600;
+        box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.3);
+        transition: all 0.2s;
+        margin-top: 8px;
+      }
+
+      button[type="submit"]:hover {
+        background: var(--primary-hover);
+        transform: translateY(-1px);
+        box-shadow: 0 6px 10px -1px rgba(79, 70, 229, 0.4);
+      }
+
+      button[type="submit"]:disabled {
+        background: #9ca3af;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      .result-box {
+        padding: 20px;
+        background: #ecfdf5;
+        color: #065f46;
+        border: 1px solid #a7f3d0;
+        border-radius: 8px;
+        font-size: 15px;
+        text-align: center;
+        font-weight: 500;
+        animation: fadeIn 0.5s ease;
+
+        display: none;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
         }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .home-link {
+        text-decoration: none;
+        color: var(--text-muted);
+        font-size: 14px;
+        text-align: center;
+        display: block;
+        margin-top: 10px;
+        transition: 0.2s;
+      }
+
+      .home-link:hover {
+        color: var(--primary);
+      }
     </style>
-</head>
+  </head>
+  <body>
+    <div class="container">
+      <div class="welcome-box">
+        <h1>Video Tools</h1>
+        <p>
+          Công cụ hỗ trợ <strong>chia nhỏ video (Split)</strong> theo kích thước
+          hoặc độ phân giải và <strong>ghép video (Merge)</strong>. Thao tác đơn
+          giản – xử lý nhanh chóng.
+        </p>
+      </div>
 
-<body>
-    <div style="display: flex; flex-direction: column; gap: 12px; padding: 24px;">
-        <h1>Split video</h1>
-        <form action="/file" enctype="multipart/form-data" method="post" onsubmit="myButton.disabled = true">
-            <input type="file" name="file" accept="video/*">
-            <select name="size">
-                <option value="1080">1080P</option>
-                <option value="keep">Keep Size (Only chunk)</option>
-                <option value="3840">4K</option>
-                <option value="2560">2K</option>
-                <option value="1920">1920P</option>
-                <option value="1440">1440P</option>
-                <option value="720">720P</option>
-                <option value="480">480P</option>
-                <option value="360">360P</option>
-                <option value="240">240P</option>
-            </select>
-            <button type="submit" name="myButton">Zip Video</button>
+      <div class="tool-section">
+        <h2>Split Video</h2>
+        <form
+          action="/file"
+          enctype="multipart/form-data"
+          method="post"
+          onsubmit="this.querySelector('button').disabled = true; this.querySelector('button').innerText = 'Processing...'"
+        >
+          <input type="file" name="file" accept="video/*" required />
+
+          <select name="size">
+            <option value="1080" selected>1080P Full HD</option>
+            <option value="keep">Original Size (Split Only)</option>
+            <option value="3840">4K Ultra HD</option>
+            <option value="2560">2K QHD</option>
+            <option value="1920">1920P</option>
+            <option value="1440">1440P</option>
+            <option value="720">720P HD</option>
+            <option value="480">480P</option>
+            <option value="360">360P</option>
+            <option value="240">240P</option>
+          </select>
+
+          <button type="submit" name="myButton">Zip & Download</button>
         </form>
+      </div>
 
-        <h1>Merge video</h1>
-        <form action="/merge" enctype="multipart/form-data" method="post" onsubmit="mergeButton.disabled = true">
-            <input type="file" name="files" multiple accept="video/*">
-            <button type="submit" name="mergeButton">Merge Video</button>
+      <div class="tool-section">
+        <h2>Merge Video</h2>
+        <form
+          action="/merge"
+          enctype="multipart/form-data"
+          method="post"
+          onsubmit="this.querySelector('button').disabled = true; this.querySelector('button').innerText = 'Processing...'"
+        >
+          <input type="file" name="files" multiple accept="video/*" required />
+          <button type="submit" name="mergeButton">Merge Videos</button>
         </form>
+      </div>
 
-        <div style="border: 1px solid gainsboro; padding: 16px;">
-            {{result}}
-        </div>
-        <a href="/" target="_blank">Home</a>
+      <div id="resultBox" class="result-box">{{result}}</div>
+
+      <a href="/" class="home-link">← Back to Home</a>
     </div>
-</body>
 
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const resultBox = document.getElementById("resultBox");
+        const content = resultBox.innerHTML.trim();
+
+        if (content !== "{{result}}" && content !== "") {
+          resultBox.style.display = "block";
+        }
+      });
+    </script>
+  </body>
 </html>
